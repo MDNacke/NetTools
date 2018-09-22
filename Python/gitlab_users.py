@@ -44,9 +44,9 @@ def header_function(header_line):
 
     headers[name] = value
 
-## curl --head -H "Private-Token: 6_p-J248zCysgBBQNjHP" https://gitlab.cummins.com/api/v4/users
-URL = 'https://gitlab.cummins.com/api/v4/users'
-Headers = 'Private-Token: 6_p-J248zCysgBBQNjHP'
+## curl --head -H "Private-Token: <my token>" https://<my gitlab server>/api/v4/users
+URL = 'https://<my gitlab server>/api/v4/users'
+Headers = 'Private-Token: <my token>'
 
 # Setup curl values for GitLab API
 buffer = BytesIO()
@@ -101,8 +101,7 @@ for x in range(1, Num_pages):
 
 myFile.close()
 
-#Command = 'echo "GitLab user report in CSV format" | mutt -s "Gitlab monthly user reporting" -a "/tmp/gitlab_users.csv" -- kd657@cummins.com cb698@cummins.com ka507@cummins.com 2> /tmp/email.log'
-Command = 'echo "GitLab production user report in CSV format" | mutt -s "Production Gitlab monthly user reporting" -a "/tmp/gitlab_users.csv" -- ka507@cummins.com 2> /tmp/email.log'
+Command = 'echo "GitLab production user report in CSV format" | mutt -s "Production Gitlab monthly user reporting" -a "/tmp/gitlab_users.csv" -- myemail@domain.com 2> /tmp/email.log'
 outPut = Popen( Command , shell=True, stderr=PIPE, stdout=PIPE)
 
 print ( outPut.communicate()[0] )
