@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+
+import socket;
+from optparse import OptionParser
+
+"""Sets up OptParse to fetch cmd line options and
+   returns the (options, args) tuple"""
+usage = "PortCheck -H <hostname> -p <portnum>"
+parser = OptionParser(usage)
+parser.add_option("-H", "--hostname", help="The remote Hostname or IP")
+parser.add_option("-p", "--portnum", help="The remote port")
+
+(options, args) = parser.parse_args()
+if options.hostname is None or options.portnum is None:
+        parser.error("wrong number of arguments")
+
+hostid = options.hostname
+portid = int(options.portnum)
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.settimeout(10)
+result = sock.connect_ex((hostid,portid))
+
+print " "
+
+if result == 0:
+        print "Port " +str(portid) +" is open to host " +hostid
+else:
+        if result == 111:
+         print "Port " +str(portid) +" is not open on host " +hostid +" (service not running)"
+        else:
+         print "Cannot communicate with host " +hostid +", Port is most likely not open"
+
+print " "
