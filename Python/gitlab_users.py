@@ -44,7 +44,6 @@ def header_function(header_line):
 
     headers[name] = value
 
-## curl --head -H "Private-Token: <my token>" https://<my gitlab server>/api/v4/users
 URL = 'https://<my gitlab server>/api/v4/users'
 Headers = 'Private-Token: <my token>'
 
@@ -74,9 +73,8 @@ print ('Total pages needed = ' + str(Num_pages) )
 writer = csv.writer(myFile)
 writer.writerows(record)
 for x in range(1, Num_pages):
-## curl -H "Private-Token: 6_p-J248zCysgBBQNjHP" https://gitlab.cummins.com/api/v4/users?per_page=100&page=(page number)
-    URL = 'https://gitlab.cummins.com/api/v4/users?per_page=100&page=' + str(x)
-    Headers = 'Private-Token: 6_p-J248zCysgBBQNjHP'
+    URL = 'https://<my gitlab server>/api/v4/users?per_page=100&page=' + str(x)
+    Headers = 'Private-Token: <my token>'
 
     pages = pycurl.Curl()
     data = BytesIO()
