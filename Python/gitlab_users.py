@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 
-########################################################################################
-# Copyright (c) 2016, Cummins Inc. Business System. All rights reserved.
-########################################################################################
-
 import os
 import sys
 import json
