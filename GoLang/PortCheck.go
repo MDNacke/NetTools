@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"time"
+	"strings"
 )
 
 // Run the port scanner
@@ -22,9 +23,9 @@ func main() {
 
     d := net.Dialer{Timeout: 20*time.Second}
     conn, errors := d.Dial("tcp", fmt.Sprintf("%v:%v", host, port))
-		fmt.Println(" ")
-		fmt.Println("Running check for host", host, "on port", port)
-		fmt.Println(" ")
+    fmt.Println(" ")
+    fmt.Println("Running check for host", host, "on port", port)
+    fmt.Println(" ")
 
     if errors != nil {
         if oerr, ok := errors.(*net.OpError); ok {
@@ -35,7 +36,11 @@ func main() {
                     if oerr.Timeout() {
                         fmt.Println("connect: connection timed out to", host, "on port", port )
                     } else {
-                        panic("Unknown connection error")
+                        if strings.Contains(errors.Error(), "no such host") {
+                            fmt.Println("connect: no such host", host)
+                        } else {
+                            panic("Unknown connection error")
+                        }
                     }
             }
         }
@@ -46,6 +51,5 @@ func main() {
     if conn != nil {
         conn.Close()
     }
-		fmt.Println(" ")
-		
+    fmt.Println(" ")
 }
