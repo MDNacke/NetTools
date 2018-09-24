@@ -1,25 +1,25 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-	"net"
-	"os"
-	"time"
-	"strings"
-	"github.com/fatih/color"
+        "flag"
+        "fmt"
+        "net"
+        "os"
+        "time"
+        "strings"
+        "github.com/fatih/color"
 )
 
 // Run the port scanner
 func main() {
     var host, port string
-		var PrintString string
+         var PrintString string
     flag.StringVar(&host, "H", "", "host to scan")
     flag.StringVar(&port, "p", "", "port to scan")
     flag.Parse()
 
     if host == "" || port == "" {
-        fmt.Println("Usage: portscan -H <host> -p port")
+        fmt.Println("Usage: PortCheck -H <host> -p port")
         os.Exit(1)
     }
 
@@ -38,22 +38,22 @@ func main() {
         if oerr, ok := errors.(*net.OpError); ok {
             switch oerr.Err.(type) {
                 case *os.SyscallError:
-                    PrintString = fmt.Sprintf("%v - connect: connection refused to %v on port %v", endnow, host, port)
+                    PrintString = fmt.Sprintf("%v - Connect: connection refused to %v on port %v", endnow, host, port)
                 default:
                     if oerr.Timeout() {
-                        PrintString = fmt.Sprintf("%v - connection timed out to %v on port %v", endnow, host, port)
+                        PrintString = fmt.Sprintf("%v - Connection timed out to %v on port %v", endnow, host, port)
                     } else {
                         if strings.Contains(errors.Error(), "no such host") {
-                            PrintString = fmt.Sprintf("%v - connect: no such host %v", endnow, host)
+                            PrintString = fmt.Sprintf("%v - Connect: no such host %v", endnow, host)
                         } else {
-                            panic("Unknown connection error")
+                            panic("Unknown Connection error")
                         }
                     }
             }
         }
-        	color.Red(PrintString)
+         color.Red(PrintString)
     } else {
-        PrintString = fmt.Sprintf("%v - connect: connection successful to %v on port %v", endnow, host, port)
+        PrintString = fmt.Sprintf("%v - Connect: connection successful to %v on port %v", endnow, host, port)
         color.Green(PrintString)
     }
 
