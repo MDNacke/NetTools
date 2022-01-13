@@ -6,6 +6,7 @@
 ##########################################################################
 
 import socket;
+import sys;
 from optparse import OptionParser
 
 """Sets up OptParse to fetch cmd line options and
@@ -24,7 +25,16 @@ portid = int(options.portnum)
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.settimeout(10)
-result = sock.connect_ex((hostid,portid))
+try:
+    result = sock.connect_ex((hostid,portid))
+except socket.error, exc:
+    errorNum, msgString = exc
+    print (' ')
+    if errorNum == -2:
+        print (hostid+", Name not found")
+    else:
+        print (msgString)
+    sys.exit(1)
 
 print " "
 
